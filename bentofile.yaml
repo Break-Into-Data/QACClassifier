@@ -1,0 +1,13 @@
+service: "bento_service.py:TensorFlowClassifierService"
+labels:
+  owner: break-into-data
+  project: 30daysML
+include:
+  - "*.py"
+
+python:
+  packages:
+    - openai
+envs:
+- name: OPENAI_API_KEY
+  value: 
