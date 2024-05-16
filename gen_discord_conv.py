@@ -63,7 +63,7 @@ def extract_desc_fields(input_prompt: str):
     
     llm = ChatGroq(model_name="llama3-70b-8192")
     # llm = ChatAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY") , model_name="claude-3-sonnet-20240229")
-    # llm = ChatGoogleGenerativeAI(model_name="gemini-1.5-pro")
+    # llm = ChatGoogleGenerativeAI(model_name="models/gemini-1.5-pro-latest") # "models/gemini-1.5-flash-latest" or "models/gemini-1.5-pro-latest"
 
     extractor = prompt | llm.with_structured_output(
         schema=Conversation,
