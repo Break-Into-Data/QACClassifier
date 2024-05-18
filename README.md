@@ -21,8 +21,14 @@ Welcome to the project for the 30 Days ML Challenge. In this project, we will be
 
 ## Setup
 
-1. Clone the repository : `git clone https://github.com/break-into-data/30_days_ml_project.git`
-2. Install dependencies: `pip install -r requirements.txt`
+1. Clone the repository : 
+    ```
+    git clone https://github.com/break-into-data/30_days_ml_project.git
+    ```
+2. Install dependencies: 
+    ```
+    pip install -r requirements.txt
+    ```
 3. Set up environment variables (e.g., API keys for language models)
 4. Run the script: `python gen_discord_conv.py` (if you want to generate the synthetic conversations or use the existing `conversations.csv` file)
 5. Run the `create_model.ipynb` notebook.
@@ -50,8 +56,8 @@ This section explains the process of generating synthetic conversation data to t
 
 Once the conversations data is generated, the data (`conversations.csv`) is loaded and cleaned to ensure it is in a usable format for the classification model. The following steps are performed:
 
-- Select the relevant columns. Here the columns named `message` and `message_type` is used, which are then renamed to `text` and `label` for clarity and consistency.
-- To focus on relevant data, a predefined set of allowed labels `(question, answer, comment)` is established. The lables are first converted to lowercase to standardize the data format, and then filtered to only include the allowed labels.
+1. Select the relevant columns. Here the columns named `message` and `message_type` is used, which are then renamed to `text` and `label` for clarity and consistency.
+2. To focus on relevant data, a predefined set of allowed labels `(question, answer, comment)` is established. The lables are first converted to lowercase to standardize the data format, and then filtered to only include the allowed labels.
 
 - **Tool Used**: Pandas
 - **Execution**: currently done in the `create_model.ipynb` notebook.
@@ -70,12 +76,11 @@ After the text is transdormed into vectors, the dataset is split into training a
 
 The model utilizes a standard neural network architecture suitable for classification tasks. It includes:
 
-- **Input Layer**: Designed to accept the pre-processed text data in the form of vectors. The size of these vectors is determined by `embedding_size`, which matches the dimensionality of the text embeddings used.
+1. **Input Layer**: Designed to accept the pre-processed text data in the form of vectors. The size of these vectors is determined by `embedding_size`, which matches the dimensionality of the text embeddings used.
 
-- **Hidden Layers**: There is one dense layer in the model. This layer uses the ReLU activation function to introduce non-linearity into the model, which helps in learning complex patterns in the data. The number of units in this dense layer equals `embedding_size` here as well, which means that each unit can learn from every dimension of the input vector.
+2. **Hidden Layers**: There is one dense layer in the model. This layer uses the ReLU activation function to introduce non-linearity into the model, which helps in learning complex patterns in the data. The number of units in this dense layer equals `embedding_size` here as well, which means that each unit can learn from every dimension of the input vector.
 
-- **Output Layer**: A softmax activation function is used on the final layer to output probabilities across the three classes (questions, answers, comments). The output layer has a size of `3` as there are three classes. A softmax function is used for multi-class classification tasks, as it normalizes the output probabilities to sum to one, representing probabilities across the classes.
-
+3. **Output Layer**: A softmax activation function is used on the final layer to output probabilities across the three classes (questions, answers, comments). The output layer has a size of `3` as there are three classes. A softmax function is used for multi-class classification tasks, as it normalizes the output probabilities to sum to one, representing probabilities across the classes.
 
 - **Tool Used**: Keras, TensorFlow, Numpy
 - **Execution**: currently done in the `create_model.ipynb` notebook.
@@ -84,18 +89,16 @@ The model utilizes a standard neural network architecture suitable for classific
 
 The model is set to train for up to 40 epochs with a batch size of 32 and uses the below training configurations:
 
-- **Loss Function**: The model uses sparse categorical crossentropy as the loss function. Sparse categorical crossentropy expects labels as integers, while categorical crossentropy would require one-hot encoded vectors. This choice is good for multi-class classification tasks where it compares the model's predicted probability distribution over the classes with the actual distribution, which is a one-hot encoded vector internally converted from an integer label.
+1. **Loss Function**: The model uses sparse categorical crossentropy as the loss function. Sparse categorical crossentropy expects labels as integers, while categorical crossentropy would require one-hot encoded vectors. This choice is good for multi-class classification tasks where it compares the model's predicted probability distribution over the classes with the actual distribution, which is a one-hot encoded vector internally converted from an integer label.
+    > Note: Using sparse categorical crossentropy simplifies working with categorical data as it eliminates the need for manually one-hot encoding the labels, reducing memory usage and computational cost. This efficiency can be particularly beneficial when dealing with large datasets or many class labels.
 
-> Note: Using sparse categorical crossentropy simplifies working with categorical data as it eliminates the need for manually one-hot encoding the labels, reducing memory usage and computational cost. This efficiency can be particularly beneficial when dealing with large datasets or many class labels.
+2. **Optimizer**: An Adam optimizer with a learning rate of 0.001 is used, which is a common choice for many types of neural networks due to its efficiency in handling sparse gradients and adapting the learning rate during training.
 
-- **Optimizer**: An Adam optimizer with a learning rate of 0.001 is used, which is a common choice for many types of neural networks due to its efficiency in handling sparse gradients and adapting the learning rate during training.
+3. **Metrics**: Accuracy is used as the metric for evaluating the model performance during training and testing.
 
-- **Metrics**: Accuracy is used as the metric for evaluating the model performance during training and testing.
+4. **Callbacks**: A callback for early stopping is used to monitor the training accuracy. If the accuracy does not improve for three consecutive epochs (`patience=3`), the training process will stop so that the model does not overfit the data.
 
-- **Callbacks**: A callback for early stopping is used to monitor the training accuracy. If the accuracy does not improve for three consecutive epochs (`patience=3`), the training process will stop so that the model does not overfit the data.
-
-- **Class Weights**: The weights are calculated as the inverse of class frequencies, ensuring that the model does not become biased toward the more common classes. If a class has a higher weight, the model's loss will increase more if it misclassifies an instance from that class, compared to a class with a lower weight. This adjustment compels the model to pay more attention to classes with fewer samples, aiming to correct the bias towards more frequent classes.
-
+5. **Class Weights**: The weights are calculated as the inverse of class frequencies, ensuring that the model does not become biased toward the more common classes. If a class has a higher weight, the model's loss will increase more if it misclassifies an instance from that class, compared to a class with a lower weight. This adjustment compels the model to pay more attention to classes with fewer samples, aiming to correct the bias towards more frequent classes.
 
 - **Tool Used**: Keras, TensorFlow, Numpy
 - **Execution**: currently done in the `create_model.ipynb` notebook.
@@ -104,30 +107,29 @@ The model is set to train for up to 40 epochs with a batch size of 32 and uses t
 
 The model is evaluated using the following metrics:
 
-- **Statistical Metrics**: Accuracy, recall, and F1 score are calculated to assess the model's performance on the test set. The weighted F1 score is computed to evaluate the model's accuracy while considering label imbalance. It balances the precision and recall of the prediction. Accuracy measures the proportion of total correct predictions (both true positives and true negatives) and recall measures the proportion of true positive predictions out of all positive predictions.
-
-```
-F1 Score: 92.37%
-Accuracy: 92.47%
-Recall: 92.47%
-```
+1. **Statistical Metrics**: Accuracy, recall, and F1 score are calculated to assess the model's performance on the test set. The weighted F1 score is computed to evaluate the model's accuracy while considering label imbalance. It balances the precision and recall of the prediction. Accuracy measures the proportion of total correct predictions (both true positives and true negatives) and recall measures the proportion of true positive predictions out of all positive predictions.
+    ```
+    F1 Score: 92.37%
+    Accuracy: 92.47%
+    Recall: 92.47%
+    ```
 These metrics indicate that the model performs well across all classes. The similar values suggest that the model is consistent in its predictions across different types of evaluation metrics, which is ideal for a balanced dataset or one where class weights effectively manage imbalance.
 
-- **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.
+2. **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.
 
 insert ROC curves
 
-    - The ROC curve for the Question class shows a perfect classification with an AUC (Area Under the Curve) of 1.00. This means the model can distinguish between 'Question' and other classes without any false positives or negatives.
-    - The AUC of 0.97 for Answer classes demonstrates excellent model performance as well.
-    - With an AUC of 0.92 for Comment Class, it still indicates good performance but suggests that differenciating between comments from other types might be more challenging than questions and answers.
+- The ROC curve for the Question class shows a perfect classification with an AUC (Area Under the Curve) of 1.00. This means the model can distinguish between 'Question' and other classes without any false positives or negatives.
+- The AUC of 0.97 for Answer classes demonstrates excellent model performance as well.
+- With an AUC of 0.92 for Comment Class, it still indicates good performance but suggests that differenciating between comments from other types might be more challenging than questions and answers.
 
-- **Confusion Matrix**: A confusion matrix provides a visual and numeric representation of the predictive accuracy and shows where the model is making mistakes.
+3. **Confusion Matrix**: A confusion matrix provides a visual and numeric representation of the predictive accuracy and shows where the model is making mistakes.
 
 insert confusion matrix
 
-    - Out of 118 actual questions, 117 are correctly identified with only one misclassification as a comment.
-    - 116 out of 125 answers are correctly identified, but 8 are mistakenly identified as comments and one as a question.
-    - The model struggles relatively more with comments, correctly identifying 37 out of 49, with 10 misclassified as answers and 2 as questions.
+1. Out of 118 actual questions, 117 are correctly identified with only one misclassification as a comment.
+2. 116 out of 125 answers are correctly identified, but 8 are mistakenly identified as comments and one as a question.
+3. The model struggles relatively more with comments, correctly identifying 37 out of 49, with 10 misclassified as answers and 2 as questions.
 
 - **Tool Used**: Scikit-learn, Matplotlib, Seaborn, Numpy
 - **Execution**: currently done in the `create_model.ipynb` notebook.
