@@ -117,7 +117,11 @@ These metrics indicate that the model performs well across all classes. The simi
 
 2. **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.
 
-insert ROC curves
+<p float="left">
+  <img src="images/roc_answer.png" width="100" />
+  <img src="images/roc_comment.png" width="100" /> 
+  <img src="images/roc_question.png" width="100" />
+</p>
 
 - The ROC curve for the Question class shows a perfect classification with an AUC (Area Under the Curve) of 1.00. This means the model can distinguish between 'Question' and other classes without any false positives or negatives.
 - The AUC of 0.97 for Answer classes demonstrates excellent model performance as well.
@@ -125,8 +129,9 @@ insert ROC curves
 
 3. **Confusion Matrix**: A confusion matrix provides a visual and numeric representation of the predictive accuracy and shows where the model is making mistakes.
 
-<!-- insert confusion matrix -->
-![Confusion Matrix](images/confusion_matrix.png)
+<p align="center">
+  <img src="images/confusion_matrix.png" />
+</p>
 
 1. Out of 118 actual questions, 117 are correctly identified with only one misclassification as a comment.
 2. 116 out of 125 answers are correctly identified, but 8 are mistakenly identified as comments and one as a question.
