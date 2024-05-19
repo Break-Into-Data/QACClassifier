@@ -125,7 +125,8 @@ insert ROC curves
 
 3. **Confusion Matrix**: A confusion matrix provides a visual and numeric representation of the predictive accuracy and shows where the model is making mistakes.
 
-insert confusion matrix
+<!-- insert confusion matrix -->
+![Confusion Matrix](images/confusion_matrix.png)
 
 1. Out of 118 actual questions, 117 are correctly identified with only one misclassification as a comment.
 2. 116 out of 125 answers are correctly identified, but 8 are mistakenly identified as comments and one as a question.
