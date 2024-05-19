@@ -117,10 +117,10 @@ These metrics indicate that the model performs well across all classes. The simi
 
 2. **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.
 
-<p float="left">
-  <img src="images/roc_answer.png" width="100" />
-  <img src="images/roc_comment.png" width="100" /> 
-  <img src="images/roc_question.png" width="100" />
+<p float="center">
+  <img src="images/roc_answer.png" width="300" />
+  <img src="images/roc_comment.png" width="300" /> 
+  <img src="images/roc_question.png" width="300" />
 </p>
 
 - The ROC curve for the Question class shows a perfect classification with an AUC (Area Under the Curve) of 1.00. This means the model can distinguish between 'Question' and other classes without any false positives or negatives.
