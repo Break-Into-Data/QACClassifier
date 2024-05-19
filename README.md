@@ -117,10 +117,10 @@ These metrics indicate that the model performs well across all classes. The simi
 
 2. **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.
 
-<p float="center">
-  <img src="images/roc_answer.png" width="300" />
-  <img src="images/roc_comment.png" width="300" /> 
-  <img src="images/roc_question.png" width="300" />
+<p align="center">
+  <img src="images/roc_question.png" width="280" />
+  <img src="images/roc_answer.png" width="280" /> 
+  <img src="images/roc_comment.png" width="280" />
 </p>
 
 - The ROC curve for the Question class shows a perfect classification with an AUC (Area Under the Curve) of 1.00. This means the model can distinguish between 'Question' and other classes without any false positives or negatives.
@@ -137,16 +137,31 @@ These metrics indicate that the model performs well across all classes. The simi
 2. 116 out of 125 answers are correctly identified, but 8 are mistakenly identified as comments and one as a question.
 3. The model struggles relatively more with comments, correctly identifying 37 out of 49, with 10 misclassified as answers and 2 as questions.
 
+Additionally, the model is saved as a Bentoml model for deployment.
+
 - **Tool Used**: Scikit-learn, Matplotlib, Seaborn, Numpy
 - **Execution**: currently done in the `create_model.ipynb` notebook.
 
 ## Model Deployment
 
-The model is deployed using Bentoml, a framework for building and deploying machine learning models.
+The model is deployed using Bentoml, a framework for building and deploying machine learning models. The service employs a combination of BentoML, TensorFlow, and OpenAI's API to process, predict, and serve the results of text classifications via an API endpoint. Below are the API service components:
 
-- **Tool Used**: Bentoml, TensorFlow
+1. **Service Class**: Defined as TensorFlowClassifierService using BentoML's service decorator to facilitate model serving.
+2. **API Endpoint (`classify`)**: A REST API endpoint that takes text input, processes it through the model, and returns classification results.
+
+- **Tool Used**: Bentoml, TensorFlow, OpenAI
+- **Data Structure**: Returns a JSON object containing the classification results.
 - **Execution**: Code is in `bento_service.py`
 
 ## Presentation
 
-[Placeholder for front-end application details]
+The Streamlit app is a user-friendly front-end interface that allows users to interact with the model and visualize the generated conversation data. The app provides a simple interface for users to input text and view the predicted probabilities for each category.
+
+<p align="center">
+  <img src="images/streamlit.png" />
+</p>
+
+Upon clicking the "Classify" button, the app sends a POST request to the backend server with the input text. The server processes the text and returns the predicted probabilities for each category.
+
+- **Tool Used**: Streamlit, Matplotlib, Seaborn, Numpy
+- **Execution**: Run `streamlit_app.py` file to launch the Streamlit app.
