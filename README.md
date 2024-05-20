@@ -18,11 +18,11 @@ The goal is to use this to better understand the Discord server and its users, a
 3. [Data Generation](#-data-generation)
 4. [Data Cleaning](#-data-cleaning)
 5. [Data Transformation](#%EF%B8%8F-data-transformation)
-6. [Model Architecture](#model-architecture)
-7. [Model Training](#model-training)
-8. [Model Evaluation](#model-evaluation)
-9. [Model Deployment](#model-deployment)
-10. [Presentation](#presentation)
+6. [Model Architecture](#-model-architecture)
+7. [Model Training](#%EF%B8%8F-model-training)
+8. [Model Evaluation](#-model-evaluation)
+9. [Model Deployment](#-model-deployment)
+10. [Presentation](#-presentation)
 
 ## Dependencies
 
