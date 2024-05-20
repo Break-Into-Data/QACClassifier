@@ -24,14 +24,14 @@ The goal is to use this to better understand the Discord server and its users, a
 9. [Model Deployment](#-model-deployment)
 10. [Presentation](#-presentation)
 
-## Dependencies
+## 📦 Dependencies
 
 - Python 3.7+
 - LangChain
 - Bentoml
 - Streamlit
 
-## Setup
+## 🔧 Setup
 
 1. Clone the repository : 
     ```
