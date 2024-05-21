@@ -1,9 +1,8 @@
 import csv
 import concurrent.futures
-from typing import List, Optional
+from typing import List
 
-from langchain.chains import create_structured_output_runnable
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.pydantic_v1 import BaseModel, Field
 
 from langchain_groq import ChatGroq
@@ -13,6 +12,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 
 # Set the LANGCHAIN_TRACING_V2 environment variable to 'true'
@@ -20,6 +20,7 @@ os.environ['LANGCHAIN_TRACING_V2'] = 'true'
 
 # Set the LANGCHAIN_PROJECT environment variable to the desired project name
 os.environ['LANGCHAIN_PROJECT'] = 'Conversation30DayProject'
+
 
 class Message(BaseModel):
     """
@@ -30,6 +31,7 @@ class Message(BaseModel):
     message: str = Field(..., description="Full message that the user sent, most likely a question, answer, or comment.")
     message_type: str = Field(...,description="Category of the type of interest the message provokes. Question, Answer, Comment")
     message_id: int = Field(...,description="7 digit number, first 5 is the conversations unique identifier and the last 2 is the message sequence number")
+
 
 class Conversation(BaseModel):
     """The full message log to review the message history in sequential order."""
@@ -73,12 +75,15 @@ def extract_desc_fields(input_prompt: str):
     
     return extractor.invoke(input_prompt)
 
+
 def generate_conversation():
     return extract_desc_fields("Generate and save the created conversations.")
+
 
 def write_conversation_to_csv(conversation, writer):
     for message in conversation.message_history:
         writer.writerow([message.user_name, message.message, message.message_type, message.message_id])
+
 
 def main(conv_filepath, num_conversations=10):
     file_exists = os.path.exists(conv_filepath)
@@ -104,5 +109,5 @@ def main(conv_filepath, num_conversations=10):
                     continue
 
 if __name__ == "__main__":
-    conv_filepath = 'conversations.csv'
+    conv_filepath = './data/conversations.csv'
     main(conv_filepath, 10)
