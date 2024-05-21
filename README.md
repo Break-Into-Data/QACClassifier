@@ -46,10 +46,12 @@ The goal is to use this to better understand the Discord server and its users, a
 5. Run the `model/create_model.ipynb` notebook.
 6. Run the Bentoml service:
     ```
+    cd deployment/
     bentoml serve bento_service:TensorFlowClassifierService
     ```
 7. Run the Streamlit app:
     ```
+    cd frontend/
     streamlit run streamlit_app.py
     ```
 
