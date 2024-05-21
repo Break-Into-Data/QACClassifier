@@ -33,7 +33,7 @@ The goal is to use this to better understand the Discord server and its users, a
 
 ## 🔧 Setup
 
-1. Clone the repository : 
+1. Clone the repository: 
     ```
     git clone https://github.com/break-into-data/30_days_ml_project.git
     ```
@@ -42,35 +42,38 @@ The goal is to use this to better understand the Discord server and its users, a
     pip install -r requirements.txt
     ```
 3. Set up environment variables (e.g., API keys for language models)
-4. Run the script: `python gen_discord_conv.py` (if you want to generate the synthetic conversations or use the existing `conversations.csv` file)
-5. Run the `create_model.ipynb` notebook.
+4. Run the script: `cd dataset && python generate_dataset.py` (if you want to generate the synthetic conversations or use the existing `dataset/data/conversations.csv` file)
+5. Run the `model/create_model.ipynb` notebook.
 6. Run the Bentoml service:
     ```
+    cd deployment/
     bentoml serve bento_service:TensorFlowClassifierService
     ```
 7. Run the Streamlit app:
     ```
+    cd frontend/
     streamlit run streamlit_app.py
     ```
 
 ## 📊 Data Generation
 
-This section explains the process of generating synthetic conversation data to train a classification model for the "Break Into Data" Discord server. Using the `gen_discord_conv.py` script, synthetic conversations are generated based on a prompt describing the Discord server's purpose, channels, and typical conversation topics. We use the LangChain library to interface with various language models (Groq, Anthropic, or Google Generative AI) and generate structured conversation data.
+This section explains the process of generating synthetic conversation data to train a classification model for the "Break Into Data" Discord server. Using the `dataset/generate_dataset.py` script, synthetic conversations are generated based on a prompt describing the Discord server's purpose, channels, and typical conversation topics. We use the LangChain library to interface with various language models (Groq, Anthropic, or Google Generative AI) and generate structured conversation data.
 
 <p align="center">
   <img src="images/conversations.png" />
 </p>
 
 - **Tool Used**: LangChain, LLMs (e.g., Groq, Anthropic, or Google Generative AI)
-- **Data Structure**: Conversations are outputted as a CSV file (`conversations.csv`), consisting of user names, message content, message type (e.g., question, answer, comment), and unique message IDs.
+- **Data Structure**: Conversations are outputted as a CSV file (`dataset/data/conversations.csv`), consisting of user names, message content, message type (e.g., question, answer, comment), and unique message IDs.
 - **Execution**: To generate synthetic conversations, run:
   ```
-  python gen_discord_conv.py
+  cd dataset/
+  python generate_dataset.py
   ```
 
 ## 🧹 Data Cleaning
 
-Once the conversations data is generated, the data (`conversations.csv`) is loaded and cleaned to ensure it is in a usable format for the classification model. The following steps are performed:
+Once the conversations data is generated, the data (`dataset/data/conversations.csv`) is loaded and cleaned to ensure it is in a usable format for the classification model. The following steps are performed:
 
 1. Select the relevant columns. Here the columns named `message` and `message_type` is used, which are then renamed to `text` and `label` for clarity and consistency.
 2. To focus on relevant data, a predefined set of allowed labels `(question, answer, comment)` is established. The lables are first converted to lowercase to standardize the data format, and then filtered to only include the allowed labels.
@@ -80,7 +83,7 @@ Once the conversations data is generated, the data (`conversations.csv`) is load
 </p>
 
 - **Tool Used**: Pandas
-- **Execution**: currently done in the `create_model.ipynb` notebook.
+- **Execution**: currently done in the `model/create_model.ipynb` notebook.
 
 ## ⚙️ Data Transformation
 
@@ -93,8 +96,8 @@ After the text is transdormed into vectors, the dataset is split into training a
 </p>
 
 - **Tool Used**: OpenAI, Numpy
-- **Data Structure**: The output vectors are stored in a NumPy array format and saved as `(vectors.npy)`, ensuring they are ready for efficient loading during the model training phase.
-- **Execution**: currently done in the `create_model.ipynb` notebook.
+- **Data Structure**: The output vectors are stored in a NumPy array format and saved as `(dataset/data/vectors.npy)`, ensuring they are ready for efficient loading during the model training phase.
+- **Execution**: currently done in the `model/create_model.ipynb` notebook.
 
 ## 🤖 Model Architecture
 
@@ -111,7 +114,7 @@ The model utilizes a standard neural network architecture suitable for classific
 </p>
 
 - **Tool Used**: Keras, TensorFlow, Numpy
-- **Execution**: currently done in the `create_model.ipynb` notebook.
+- **Execution**: currently done in the `model/create_model.ipynb` notebook.
 
 ## 🏋️ Model Training
 
@@ -129,7 +132,7 @@ The model is set to train for up to 40 epochs with a batch size of 32 and uses t
 5. **Class Weights**: The weights are calculated as the inverse of class frequencies, ensuring that the model does not become biased toward the more common classes. If a class has a higher weight, the model's loss will increase more if it misclassifies an instance from that class, compared to a class with a lower weight. This adjustment compels the model to pay more attention to classes with fewer samples, aiming to correct the bias towards more frequent classes.
 
 - **Tool Used**: Keras, TensorFlow, Numpy
-- **Execution**: currently done in the `create_model.ipynb` notebook.
+- **Execution**: currently done in the `model/create_model.ipynb` notebook.
 
 ## 📉 Model Evaluation
 
@@ -168,7 +171,7 @@ These metrics indicate that the model performs well across all classes. The simi
 Additionally, the model is saved as a Bentoml model for deployment.
 
 - **Tool Used**: Scikit-learn, Matplotlib, Seaborn, Numpy
-- **Execution**: currently done in the `create_model.ipynb` notebook.
+- **Execution**: currently done in the `model/create_model.ipynb` notebook.
 
 ## 🚀 Model Deployment
 
@@ -179,7 +182,7 @@ The model is deployed using Bentoml, a framework for building and deploying mach
 
 - **Tool Used**: Bentoml, TensorFlow, OpenAI
 - **Data Structure**: Returns a JSON object containing the classification results.
-- **Execution**: Code is in `bento_service.py`
+- **Execution**: Code is in `deployment/bento_service.py`
 
 ## 🎨 Presentation
 
@@ -192,7 +195,7 @@ The Streamlit app is a user-friendly front-end interface that allows users to in
 Upon clicking the "Classify" button, the app sends a POST request to the backend server with the input text. The server processes the text and returns the predicted probabilities for each category.
 
 - **Tool Used**: Streamlit, Matplotlib, Seaborn, Numpy
-- **Execution**: Run `streamlit_app.py` file to launch the Streamlit app.
+- **Execution**: Run `frontend/streamlit_app.py` file to launch the Streamlit app.
 
 ## 👏 Acknowledgments
 

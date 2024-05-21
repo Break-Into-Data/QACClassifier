@@ -1,8 +1,12 @@
 import requests
 
+import seaborn as sns
 import streamlit as st
 import matplotlib.pyplot as plt
-import seaborn as sns
+
+
+API_ENDPOINT = 'http://localhost:3000/classify'
+
 
 # Streamlit app setup
 st.set_page_config(page_title="Text Classification App", page_icon="🤖")
@@ -20,7 +24,7 @@ input_text = st.text_area('Enter text to classify:')
 if st.button('Classify'):
     if input_text:
         # Send request to the server
-        response = requests.post('http://localhost:3000/classify', json={'text': input_text})
+        response = requests.post(API_ENDPOINT, json={'text': input_text})
         probabilities = response.json().get('result', [])
 
         if probabilities:
