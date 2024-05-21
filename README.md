@@ -67,7 +67,8 @@ This section explains the process of generating synthetic conversation data to t
 - **Data Structure**: Conversations are outputted as a CSV file (`dataset/data/conversations.csv`), consisting of user names, message content, message type (e.g., question, answer, comment), and unique message IDs.
 - **Execution**: To generate synthetic conversations, run:
   ```
-  python gen_discord_conv.py
+  cd dataset/
+  python generate_dataset.py
   ```
 
 ## 🧹 Data Cleaning
