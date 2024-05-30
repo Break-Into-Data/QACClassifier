@@ -1,0 +1,6 @@
+model/
+dataset/
+deployment/
+README.md
+.gitignore
+.env.example

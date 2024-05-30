@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-30d-ml
+  template:
+    metadata:
+      labels:
+        app: backend-30d-ml
+    spec:
+      containers:
+      - name: backend-30d-ml
+        image: gcr.io/break-into-data/30d_ml_service
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"

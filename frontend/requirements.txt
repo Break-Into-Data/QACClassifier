@@ -1,0 +1,4 @@
+python-dotenv==1.0.1
+matplotlib==3.9.0
+seaborn==0.13.2
+streamlit==1.34.0

@@ -33,24 +33,38 @@ The goal is to use this to better understand the Discord server and its users, a
 
 ## 🔧 Setup
 
-1. Clone the repository: 
-    ```
+1. Clone the repository:
+
+    ```shell
     git clone https://github.com/break-into-data/30_days_ml_project.git
     ```
-2. Install dependencies: 
+
+2. Install dependencies:
+    For the model:
+
+    ```shell
+    pip install -r ./model/requirements.txt
     ```
-    pip install -r requirements.txt
+
+    For the frontend:
+
+    ```shell
+    pip install -r ./frontend/requirements.txt
     ```
+
 3. Set up environment variables (e.g., API keys for language models)
 4. Run the script: `cd dataset && python generate_dataset.py` (if you want to generate the synthetic conversations or use the existing `dataset/data/conversations.csv` file)
 5. Run the `model/create_model.ipynb` notebook.
 6. Run the Bentoml service:
-    ```
+
+    ```shell
     cd deployment/
     bentoml serve bento_service:TensorFlowClassifierService
     ```
+
 7. Run the Streamlit app:
-    ```
+
+    ```shell
     cd frontend/
     streamlit run streamlit_app.py
     ```
@@ -66,7 +80,8 @@ This section explains the process of generating synthetic conversation data to t
 - **Tool Used**: LangChain, LLMs (e.g., Groq, Anthropic, or Google Generative AI)
 - **Data Structure**: Conversations are outputted as a CSV file (`dataset/data/conversations.csv`), consisting of user names, message content, message type (e.g., question, answer, comment), and unique message IDs.
 - **Execution**: To generate synthetic conversations, run:
-  ```
+
+  ```shell
   cd dataset/
   python generate_dataset.py
   ```
@@ -139,11 +154,13 @@ The model is set to train for up to 40 epochs with a batch size of 32 and uses t
 The model is evaluated using the following metrics:
 
 1. **Statistical Metrics**: Accuracy, recall, and F1 score are calculated to assess the model's performance on the test set. The weighted F1 score is computed to evaluate the model's accuracy while considering label imbalance. It balances the precision and recall of the prediction. Accuracy measures the proportion of total correct predictions (both true positives and true negatives) and recall measures the proportion of true positive predictions out of all positive predictions.
-    ```
+
+    ```txt
     F1 Score: 92.37%
     Accuracy: 92.47%
     Recall: 92.47%
     ```
+
 These metrics indicate that the model performs well across all classes. The similar values suggest that the model is consistent in its predictions across different types of evaluation metrics, which is ideal for a balanced dataset or one where class weights effectively manage imbalance.
 
 2. **ROC Curve**: A ROC curve is a graphical representation of the model's performance on the test set. The model's performance is evaluated at different thresholds, and the ROC curve shows the trade-off between false positives and true positives.

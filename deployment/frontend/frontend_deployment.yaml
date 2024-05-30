@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-30d-ml
+  template:
+    metadata:
+      labels:
+        app: frontend-30d-ml
+    spec:
+      containers:
+      - name: frontend-30d-ml
+        image: gcr.io/break-into-data/30d_ml_frontend
+        ports:
+        - containerPort: 8080

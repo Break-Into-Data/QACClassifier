@@ -10,8 +10,6 @@ import pandas as pd
 from keras import layers
 
 
-
-
 # Create a logger
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -33,12 +31,11 @@ DATA_FILES_ROOT = "../dataset/data/"
 CONVERSATIONS_CSV_PATH = os.path.join(DATA_FILES_ROOT, "conversations.csv")
 EMBEDDINGS_CACHE_PATH = os.path.join(DATA_FILES_ROOT, "vectors.npy")
 
+dotenv.load_dotenv()
 client = openai.OpenAI()
 
 
 def load_data():
-    dotenv.load_dotenv()
-
     # Load the data
     raw_df = pd.read_csv(CONVERSATIONS_CSV_PATH)[["message", "message_type"]]
     raw_df.rename(columns={
